@@ -1,6 +1,5 @@
 package logic;
 
-
 import entity.Delimiter;
 import entity.DelimiterPosition;
 import org.junit.jupiter.api.Test;
@@ -8,14 +7,15 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-class BracketTest {
+import static org.junit.jupiter.api.Assertions.*;
 
+class PriorityTest {
 
     @Test
-    void getBracketRange() {
+    void getPriorityRanges() {
         List<DelimiterPosition> testData = new ArrayList<>();
 
-        testData.add(new DelimiterPosition(0,Delimiter.BRACKET_OPEN));
+        testData.add(new DelimiterPosition(0, Delimiter.BRACKET_OPEN));
         testData.add(new DelimiterPosition(1,Delimiter.BRACKET_OPEN));
         testData.add(new DelimiterPosition(7,Delimiter.BRACKET_CLOSE));
         testData.add(new DelimiterPosition(11,Delimiter.BRACKET_CLOSE));
@@ -23,6 +23,6 @@ class BracketTest {
         testData.add(new DelimiterPosition(25,Delimiter.BRACKET_CLOSE));
 
         System.out.println(testData);
-        System.out.println(Priority.getBracketRange(testData));
+        System.out.println(Priority.getPriorityRanges(testData, 30));
     }
 }
