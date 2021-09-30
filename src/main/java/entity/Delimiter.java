@@ -2,6 +2,7 @@ package entity;
 
 public enum Delimiter {
     ADD,
+    MINUS,
     MULTIPLY,
     DIVIDE,
     RESULT,
