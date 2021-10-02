@@ -6,13 +6,13 @@ import entity.DelimiterPosition;
 
 import java.util.*;
 
-public class Priority {
-    public static List<PriorityRange> getPriorityRanges(List<DelimiterPosition> input, int listLength){
+public class PriorityUtils {
+    public static List<PriorityRange> getPriorityRanges(List<DelimiterPosition> input, int expressionLength){
         List<PriorityRange> bracketRanges = getBracketRange(input);
         Collections.sort(bracketRanges);
         List<PriorityRange> list = new ArrayList<>();
         List<PriorityRange> allRanges = new ArrayList<>();
-        PriorityRange initRange = new PriorityRange(0, listLength-1, 0);
+        PriorityRange initRange = new PriorityRange(0, expressionLength-1, 0);
         int count = 0;
         list.add(initRange);
         for (PriorityRange r:bracketRanges) {
@@ -20,7 +20,7 @@ public class Priority {
                 PriorityRange temp = list.get(count);
                 temp.setPriority(0);
                 temp.setEndRange(r.getStartRange()-1);
-                list.add(new PriorityRange(r.getEndRange()+1, listLength-1,0));
+                list.add(new PriorityRange(r.getEndRange()+1, expressionLength-1,0));
                 count++;
             }
         }
@@ -31,6 +31,10 @@ public class Priority {
         }
         allRanges.addAll(bracketRanges);
         Collections.sort(allRanges);
+
+        if (allRanges.isEmpty()){
+            allRanges.add(new PriorityRange(0,expressionLength,0));
+        }
         return allRanges;
     }
 
@@ -59,5 +63,18 @@ public class Priority {
         }
         Collections.sort(ranges);
         return ranges;
+    }
+
+    public static DelimiterPosition getMostPriorityOperationInRange(List<DelimiterPosition> delimiters, PriorityRange range){
+        List<DelimiterPosition> suitableDelimiters = DelimiterUtils.getSublist(delimiters,range);
+        DelimiterPosition delimiter = null;
+        if (!suitableDelimiters.isEmpty()){
+            for (DelimiterPosition d: suitableDelimiters){
+                if (delimiter==null || Delimiter.getDelimiterPriority(d.getDelimiter()) > Delimiter.getDelimiterPriority(delimiter.getDelimiter())){
+                    delimiter = d;
+                }
+            }
+        }
+        return delimiter;
     }
 }

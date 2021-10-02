@@ -23,6 +23,6 @@ class BracketTest {
         testData.add(new DelimiterPosition(25,Delimiter.BRACKET_CLOSE));
 
         System.out.println(testData);
-        System.out.println(Priority.getBracketRange(testData));
+        System.out.println(PriorityUtils.getBracketRange(testData));
     }
 }

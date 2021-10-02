@@ -1,63 +1,58 @@
 package logic;
 
 import entity.Delimiter;
+import entity.DelimiterPosition;
+import exception.MathExpressionException;
 
 import java.util.*;
 
 public class CalculationUtils {
-   public static Map<Integer, Delimiter> findDelimiter(String input){
-       Map<Integer, Delimiter> map = new HashMap<>();
-       char[] charArr = input.toCharArray();
-       for (int i = 0; i < charArr.length; i++) {
-           switch (charArr[i]){
-               case '+': map.put(i, Delimiter.ADD);
+
+   public static String calculate(DelimiterPosition delimiterPosition, String input) throws MathExpressionException {
+
+        if (delimiterPosition==null){
+            return input;
+        }
+       int delimiterPoint = delimiterPosition.getPosition();
+
+       char start = input.charAt(delimiterPoint-1);
+       char end = input.charAt(delimiterPoint+1);
+       int startPoint = delimiterPoint;
+       int endPoint = delimiterPoint;
+       while((start>='0' && start <= '9') || start=='.'){
+           start = input.charAt(--startPoint);
+           if ((start>='0' && start <= '9') || start=='.'){}
+           else {startPoint++;}
+           if (startPoint==0){
                break;
-               case '-': map.put(i, Delimiter.MINUS);
-               break;
-               case '*': map.put(i, Delimiter.MULTIPLY);
-               break;
-               case ':': map.put(i, Delimiter.DIVIDE);
-               break;
-               case '=': map.put(i, Delimiter.RESULT);
-               break;
-               case  '(':
-               case '[': map.put(i, Delimiter.BRACKET_OPEN);
-               break;
-               case  ')':
-               case ']': map.put(i, Delimiter.BRACKET_CLOSE);
-               break;
-               default:
            }
        }
-       return map;
-   }
+       while((end>='0' && end <= '9') || end=='.'){
+           end = input.charAt(++endPoint);
 
-    /**
-     *
-     * @param wholeRange
-     * @param start not included
-     * @param end not included
-     * @return
-     */
-   public static Map<Integer, Delimiter> getDelimitersInSubRange(Map<Integer, Delimiter> wholeRange, int start, int end){
-       List<Integer> keys = new ArrayList(wholeRange.keySet());
-       Map<Integer, Delimiter> subRange = new HashMap<>();
-       for (int i = 0; i < keys.size(); i++) {
-           if (keys.get(i)>start && keys.get(i)<end){
-               Integer key = keys.get(i);
-               subRange.put(key, wholeRange.get(key));
+           if (endPoint==input.length()-1){
+               endPoint=input.length();
+               break;
            }
        }
-       return subRange;
-   }
+       Double firstNumber = Double.parseDouble(input.substring(startPoint,delimiterPoint));
+       Double secondNumber = Double.parseDouble(input.substring(delimiterPoint+1, endPoint));
+       Double operationResult;
 
-   public static Map<Integer, Double> getNumbersFromRange(Map<Integer, Delimiter> rangeDelimiters, int start, int end){
-       List<Integer> keys = new ArrayList<>(rangeDelimiters.keySet());
-       Collections.sort(keys);
-       for (int i = start; i <= end; i++) {
-
+       char delimiter = input.charAt(delimiterPoint);
+       if (delimiter =='+'){
+           operationResult = firstNumber + secondNumber;
+       } else if (delimiter == '-'){
+           operationResult = firstNumber - secondNumber;
+       } else if (delimiter == '*'){
+           operationResult = firstNumber * secondNumber;
+       } else if (delimiter == ':' || delimiter == '/'){
+           operationResult = firstNumber / secondNumber;
+       } else {
+           throw new MathExpressionException("Unsupported operation exception");
        }
-       return null;
+
+       return input.substring(0,startPoint) + operationResult + input.substring(endPoint);
    }
 
 

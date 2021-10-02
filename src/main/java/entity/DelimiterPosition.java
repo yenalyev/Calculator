@@ -44,4 +44,18 @@ public class DelimiterPosition implements Comparable<DelimiterPosition> {
             return -1;
         } else return 0;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof DelimiterPosition)) {
+            return false;
+        }
+
+        DelimiterPosition d = (DelimiterPosition) o;
+        return Integer.compare(position, d.getPosition()) == 0
+                && (delimiter.equals(d.getDelimiter()));
+    }
 }
