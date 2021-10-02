@@ -31,4 +31,10 @@ class DelimiterUtilsTest {
         String actual = DelimiterUtils.removeUnnecessaryBrackets("(15)+20");
         Assert.assertEquals(actual, "15+20");
     }
+
+    @Test
+    void getDelimiters(){
+        List<DelimiterPosition> list = DelimiterUtils.findDelimiterList("1-2");
+        System.out.println(list);
+    }
 }

@@ -15,4 +15,11 @@ class CalculationUtilsTest {
         DelimiterPosition delimiterPosition = new DelimiterPosition(10, Delimiter.DIVIDE);
         System.out.println(CalculationUtils.calculate(delimiterPosition,input));
     }
+
+    @Test
+    void calculateMinus() throws MathExpressionException {
+        String input = "1-2";
+        DelimiterPosition delimiterPosition = new DelimiterPosition(1, Delimiter.MINUS);
+        System.out.println(CalculationUtils.calculate(delimiterPosition,input));
+    }
 }

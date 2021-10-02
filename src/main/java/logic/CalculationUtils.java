@@ -13,6 +13,7 @@ public class CalculationUtils {
         if (delimiterPosition==null){
             return input;
         }
+       System.out.println(delimiterPosition);
        int delimiterPoint = delimiterPosition.getPosition();
 
        char start = input.charAt(delimiterPoint-1);
@@ -30,7 +31,7 @@ public class CalculationUtils {
        while((end>='0' && end <= '9') || end=='.'){
            end = input.charAt(++endPoint);
 
-           if (endPoint==input.length()-1){
+           if (endPoint==input.length()-1 && (end>='0' && end <= '9')){
                endPoint=input.length();
                break;
            }
