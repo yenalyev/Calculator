@@ -33,6 +33,8 @@ public static String run(String input){
             result = runMostPriorityOperation(result);
         } catch (MathExpressionException e) {
             e.printStackTrace();
+        } catch (Exception exception){
+            return "Error happened";
         }
         delimiters = DelimiterUtils.findDelimiterList(result);
     } while (!delimiters.isEmpty());

@@ -3,37 +3,46 @@ package logic;
 import entity.Delimiter;
 import entity.DelimiterPosition;
 import exception.MathExpressionException;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Stream;
+
+
+@RunWith(Parameterized.class)
 class CalculationUtilsTest {
 
-    @Test
-    void calculate() throws MathExpressionException {
-        String input = "10+(22.055/5.465464647-155151)";
-        DelimiterPosition delimiterPosition = new DelimiterPosition(10, Delimiter.DIVIDE);
-        System.out.println(CalculationUtils.calculate(delimiterPosition,input));
+    static Stream<TestData> testDataProvider() {
+        return Stream.of(
+                new TestData("10+(22.055/5.465464647-155151)", new DelimiterPosition(10, Delimiter.DIVIDE),"10+(4.035338516388724-155151)"),
+                new TestData("1-2", new DelimiterPosition(1, Delimiter.MINUS),"-1.0"),
+                new TestData("(1-2)", new DelimiterPosition(2, Delimiter.MINUS),"-1.0"),
+                new TestData("-1*-2", new DelimiterPosition(2, Delimiter.MULTIPLY),"2.0")
+        );
     }
 
-    @Test
-    void calculateMinus() throws MathExpressionException {
-        String input = "1-2";
-        DelimiterPosition delimiterPosition = new DelimiterPosition(1, Delimiter.MINUS);
-        System.out.println(CalculationUtils.calculate(delimiterPosition,input));
+    @ParameterizedTest
+    @MethodSource("testDataProvider")
+    void calculate(TestData testData) throws MathExpressionException {
+        Assert.assertEquals(testData.outputExpression, CalculationUtils.calculate(testData.delimiter, testData.inputExpression));
     }
 
-    @Test
-    void calculateMinusInBrackets() throws MathExpressionException {
-        String input = "(1-2)";
-        DelimiterPosition delimiterPosition = new DelimiterPosition(2, Delimiter.MINUS);
-        System.out.println(CalculationUtils.calculate(delimiterPosition,input));
-    }
+    static class TestData {
+        private String inputExpression;
+        private DelimiterPosition delimiter;
+        private String outputExpression;
 
-    @Test
-    void calculateMinusMultiplyMinus() throws MathExpressionException {
-        String input = "-1*-2";
-        DelimiterPosition delimiterPosition = new DelimiterPosition(2, Delimiter.MULTIPLY);
-        System.out.println(CalculationUtils.calculate(delimiterPosition,input));
+
+        public TestData(String inputExpression, DelimiterPosition delimiter, String outputExpression) {
+            this.inputExpression = inputExpression;
+            this.delimiter = delimiter;
+            this.outputExpression = outputExpression;
+        }
     }
 }

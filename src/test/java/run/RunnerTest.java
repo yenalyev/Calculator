@@ -2,28 +2,38 @@ package run;
 
 import exception.MathExpressionException;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 class RunnerTest {
 
-    @Test
-    void runMostPriorityOperationTest() throws MathExpressionException {
-        String input = "2+2+(2/4+5)";
-        String result = Runner.runMostPriorityOperation(input);
-        Assert.assertEquals(result,"2+2+(0.5+5)");
+    static Stream<RunnerTest.TestData> testDataProvider() {
+        return Stream.of(
+                new RunnerTest.TestData("2+2+(2/4+5)", "9.5"),
+                new RunnerTest.TestData("3", "3"),
+                new RunnerTest.TestData("-1*-2+1", "3.0"),
+                new RunnerTest.TestData("2+2*(2-1)", "4.0"),
+                new RunnerTest.TestData("-1", "-1"),
+                new RunnerTest.TestData("(1)", "1.0")
+        );
     }
 
-    @Test
-    void runTest(){
-        String input = "2+2+(2/4+5)";
-        String result = Runner.run(input);
-        Assert.assertEquals(result,"9.05");
+    @ParameterizedTest
+    @MethodSource("testDataProvider")
+    void calculate(TestData testData) throws MathExpressionException {
+        Assert.assertEquals(testData.outputExpression, Runner.run(testData.inputExpression));
     }
 
-    @Test
-    void runTest2(){
-        String input = "1";
-        String result = Runner.run(input);
-        Assert.assertEquals(result,"1");
+    static class TestData {
+        private String inputExpression;
+        private String outputExpression;
+
+
+        public TestData(String inputExpression, String outputExpression) {
+            this.inputExpression = inputExpression;
+            this.outputExpression = outputExpression;
+        }
     }
 }
