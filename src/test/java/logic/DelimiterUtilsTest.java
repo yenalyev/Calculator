@@ -33,8 +33,20 @@ class DelimiterUtilsTest {
     }
 
     @Test
+    void removeUnnecessaryBracketsWithoutOperationTest(){
+        String actual = DelimiterUtils.removeUnnecessaryBrackets("(1)");
+        Assert.assertEquals(actual, "1");
+    }
+
+    @Test
     void getDelimiters(){
-        List<DelimiterPosition> list = DelimiterUtils.findDelimiterList("1-2");
+        List<DelimiterPosition> list = DelimiterUtils.findDelimiterList("-1-2");
+        System.out.println(list);
+    }
+
+    @Test
+    void getDelimitersTest(){
+        List<DelimiterPosition> list = DelimiterUtils.findDelimiterList("(1)");
         System.out.println(list);
     }
 }

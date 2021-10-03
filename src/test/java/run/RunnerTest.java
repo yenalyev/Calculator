@@ -16,7 +16,10 @@ class RunnerTest {
                 new RunnerTest.TestData("-1*-2+1", "3.0"),
                 new RunnerTest.TestData("2+2*(2-1)", "4.0"),
                 new RunnerTest.TestData("-1", "-1"),
-                new RunnerTest.TestData("(1)", "1.0")
+                new RunnerTest.TestData("-1*-1", "1.0"),
+                new RunnerTest.TestData("((1+2)*3-1)*2", "16.0"),
+                new RunnerTest.TestData("((1-0))", "1.0"),
+                new RunnerTest.TestData("(1)", "1")
         );
     }
 

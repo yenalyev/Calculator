@@ -13,7 +13,7 @@ import java.util.List;
 public class Runner {
 public static String runMostPriorityOperation(String input) throws MathExpressionException {
     // get all delimiters
-    List<DelimiterPosition> delimiters = DelimiterUtils.findDelimiterList(input);
+    List<DelimiterPosition> delimiters = DelimiterUtils.findDelimiterList(DelimiterUtils.removeUnnecessaryBrackets(input));
     //get most priority range for calculation
     List<PriorityRange> priorityRanges = PriorityUtils.getPriorityRanges(delimiters, input.length());
     //get the most priority range
@@ -34,6 +34,7 @@ public static String run(String input){
         } catch (MathExpressionException e) {
             e.printStackTrace();
         } catch (Exception exception){
+            exception.printStackTrace();
             return "Error happened";
         }
         delimiters = DelimiterUtils.findDelimiterList(result);
