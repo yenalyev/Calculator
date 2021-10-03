@@ -22,4 +22,18 @@ class CalculationUtilsTest {
         DelimiterPosition delimiterPosition = new DelimiterPosition(1, Delimiter.MINUS);
         System.out.println(CalculationUtils.calculate(delimiterPosition,input));
     }
+
+    @Test
+    void calculateMinusInBrackets() throws MathExpressionException {
+        String input = "(1-2)";
+        DelimiterPosition delimiterPosition = new DelimiterPosition(2, Delimiter.MINUS);
+        System.out.println(CalculationUtils.calculate(delimiterPosition,input));
+    }
+
+    @Test
+    void calculateMinusMultiplyMinus() throws MathExpressionException {
+        String input = "-1*-2";
+        DelimiterPosition delimiterPosition = new DelimiterPosition(2, Delimiter.MULTIPLY);
+        System.out.println(CalculationUtils.calculate(delimiterPosition,input));
+    }
 }

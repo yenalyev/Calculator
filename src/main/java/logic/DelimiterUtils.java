@@ -16,7 +16,10 @@ public class DelimiterUtils {
             switch (charArr[i]){
                 case '+': list.add(new DelimiterPosition(i, Delimiter.PLUS));
                     break;
-                case '-': list.add(new DelimiterPosition(i, Delimiter.MINUS));
+                case '-':
+                    if (i!=0 &&(charArr[i-1]!='('&& charArr[i-1]!='+'&&charArr[i-1]!='*'&& charArr[i-1]!='/'&& charArr[i-1]!=':'&& charArr[i-1]!='-')){
+                        list.add(new DelimiterPosition(i, Delimiter.MINUS));
+                    }
                     break;
                 case '*': list.add(new DelimiterPosition(i, Delimiter.MULTIPLY));
                     break;

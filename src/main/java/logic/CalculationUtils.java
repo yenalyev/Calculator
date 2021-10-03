@@ -13,18 +13,30 @@ public class CalculationUtils {
         if (delimiterPosition==null){
             return input;
         }
-       System.out.println(delimiterPosition);
        int delimiterPoint = delimiterPosition.getPosition();
 
        char start = input.charAt(delimiterPoint-1);
        char end = input.charAt(delimiterPoint+1);
+
+
        int startPoint = delimiterPoint;
        int endPoint = delimiterPoint;
+
+       if (input.charAt(delimiterPoint+1)=='-'){
+           end = input.charAt(delimiterPoint+2);
+           endPoint=delimiterPoint+1;
+       }
+
        while((start>='0' && start <= '9') || start=='.'){
            start = input.charAt(--startPoint);
            if ((start>='0' && start <= '9') || start=='.'){}
            else {startPoint++;}
            if (startPoint==0){
+               break;
+           }
+
+           if (startPoint==1 && input.charAt(0)=='-'){
+               startPoint--;
                break;
            }
        }
@@ -36,6 +48,7 @@ public class CalculationUtils {
                break;
            }
        }
+
        Double firstNumber = Double.parseDouble(input.substring(startPoint,delimiterPoint));
        Double secondNumber = Double.parseDouble(input.substring(delimiterPoint+1, endPoint));
        Double operationResult;
