@@ -15,8 +15,6 @@ public class CalculationUtils {
         }
        int delimiterPoint = delimiterPosition.getPosition();
 
-       System.out.println(delimiterPoint);
-
        char start = input.charAt(delimiterPoint-1);
        char end = input.charAt(delimiterPoint+1);
 
@@ -54,9 +52,6 @@ public class CalculationUtils {
        Double firstNumber = Double.parseDouble(input.substring(startPoint,delimiterPoint));
        Double secondNumber = Double.parseDouble(input.substring(delimiterPoint+1, endPoint));
        Double operationResult;
-
-       System.out.println(firstNumber);
-       System.out.println(secondNumber);
 
        char delimiter = input.charAt(delimiterPoint);
        if (delimiter =='+'){
